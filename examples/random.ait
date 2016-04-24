@@ -1,0 +1,5 @@
+random1L: dup 1 - + random * ;
+random1U: random * ;
+random2: dup [ swap - ] dip + random * ;
+
+#export all ;

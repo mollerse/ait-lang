@@ -1,0 +1,26 @@
+{
+  "name": "ait-lang",
+  "version": "0.1.0",
+  "description": "Compiler for the Ait language",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mollerse/ait-lang.git"
+  },
+  "keywords": [
+    "language",
+    "web",
+    "canvas"
+  ],
+  "author": "Stian Møllersen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mollerse/ait-lang/issues"
+  },
+  "homepage": "https://github.com/mollerse/ait-lang#readme",
+  "dependencies": {
+  }
+}
