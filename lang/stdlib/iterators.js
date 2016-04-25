@@ -1,4 +1,5 @@
 var evaluate = require('../../src/evaluate');
+var copy = require('lodash.clonedeep');
 
 function runWhileCheck(checkQuotation, context) {
   var stack = context.stack;
@@ -7,7 +8,7 @@ function runWhileCheck(checkQuotation, context) {
   //One for next iteration
   var topOfStack = stack.pop();
   stack.push(topOfStack);
-  stack.push(topOfStack);
+  stack.push(copy(topOfStack));
 
   //Run check
   evaluate([checkQuotation.body], context);

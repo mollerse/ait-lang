@@ -49,7 +49,7 @@ function parseWords(body) {
     var word = words.shift();
     var node;
 
-    if(!isNaN(parseFloat(word))) {
+    if(/^[\d\.\-]+$/.test(word) && !isNaN(parseFloat(word))) {
       ast.push({type: 'number', body: parseFloat(word)});
       return _parseWords(words, ast);
     }

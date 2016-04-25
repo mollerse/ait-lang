@@ -94,4 +94,7 @@ module.exports = {
     var stack = context.stack;
     stack.push(`z`);
   },
+  stroke: function(context) {
+    console.log(context.stack.join(' '));
+  }
 };

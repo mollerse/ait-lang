@@ -17,5 +17,5 @@ function interpret(file) {
 }
 
 var context = interpret('./examples/circle.ait');
-console.log(context.stack);
+// console.log(context.stack);
 // console.log(global.canvas);

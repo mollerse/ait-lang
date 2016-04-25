@@ -22,5 +22,6 @@
   },
   "homepage": "https://github.com/mollerse/ait-lang#readme",
   "dependencies": {
+    "lodash.clonedeep": "^4.3.2"
   }
 }

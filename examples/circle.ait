@@ -12,6 +12,7 @@ fillBackground: [ topLeftCorner <width <height fillRect ] <context;
 
 random25: -25 25 random2;
 
+//TODO: Something is wrong here
 calcNextAlongCircle:
   random25 <+0
   3 2rad <+1;
@@ -19,12 +20,12 @@ calcNextAlongCircle:
 calcNextControlPoint:
   6 2rad <+1;
 
-//TODO: This is buggy :D
 circle:
   dup [ moveTo ] dip
-  [ dup calcNextAlongCircle [ calcNextControlPoint ] dip quadraticCurveTo ]
+  [ dup calcNextAlongCircle [ calcNextControlPoint ] dip dup [ quadraticCurveTo ] dip ]
   [ 1> 360 <= ]
   while
+  drop
   closePath;
 
 config:
@@ -34,4 +35,4 @@ config:
   [ teal strokeStyle ] <context
   [ black fillStyle ] <context;
 
-config fillBackground ( 25 0 ) circle;
+config fillBackground ( 25 0 ) circle stroke;

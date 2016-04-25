@@ -1,4 +1,5 @@
 var evaluate = require('../../src/evaluate');
+var copy = require('lodash.clonedeep');
 
 module.exports = {
   '.': function(context) {
@@ -9,7 +10,7 @@ module.exports = {
     var stack = context.stack;
     var a = stack.pop();
     stack.push(a);
-    stack.push(a);
+    stack.push(copy(a));
   },
   'dip': function(context) {
     var stack = context.stack;
@@ -26,5 +27,11 @@ module.exports = {
 
     stack.push(first);
     stack.push(second);
+  },
+  'stack': function(context) {
+    context.stack.push(context.stack);
+  },
+  'drop': function(context) {
+    context.stack.pop();
   }
 };
