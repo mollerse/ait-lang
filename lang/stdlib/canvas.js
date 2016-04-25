@@ -1,4 +1,4 @@
-var evaluator = require('../../src/evaluator');
+var evaluate = require('../../src/evaluate');
 
 var globalCanvas = global.canvas = {
   fillRect: () => {},
@@ -10,19 +10,23 @@ var globalCanvas = global.canvas = {
 }
 
 module.exports = {
-  '<height': function(stack) {
+  '<height': function(context) {
+    var stack = context.stack;
     stack.push(100);
   },
-  '<width': function(stack) {
+  '<width': function(context) {
+    var stack = context.stack;
     stack.push(100);
   },
-  '<context': function(stack, lexicon) {
+  '<context': function(context) {
+    var stack = context.stack;
     var quotation = stack.pop();
-    evaluator.evaluate([quotation], {stack: stack, lexicon: lexicon});
+    evaluate([quotation.body], context);
     var setter = stack.pop();
     setter(globalCanvas);
   },
-  fillRect: function(stack) {
+  fillRect: function(context) {
+    var stack = context.stack;
     var height = stack.pop();
     var width = stack.pop();
     var y = stack.pop();
@@ -32,7 +36,8 @@ module.exports = {
       canvas.fillRect(x, y, width, height);
     });
   },
-  translate: function(stack) {
+  translate: function(context) {
+    var stack = context.stack;
     var y = stack.pop();
     var x = stack.pop();
 
@@ -40,46 +45,53 @@ module.exports = {
       canvas.translate(x, y);
     });
   },
-  lineWidth: function(stack) {
+  lineWidth: function(context) {
+    var stack = context.stack;
     var width = stack.pop();
 
     stack.push(function(canvas) {
       canvas.lineWidth(width);
     });
   },
-  globalAlpha: function(stack) {
+  globalAlpha: function(context) {
+    var stack = context.stack;
     var alpha = stack.pop();
 
     stack.push(function(canvas) {
       canvas.globalAlpha(alpha);
     });
   },
-  strokeStyle: function(stack) {
+  strokeStyle: function(context) {
+    var stack = context.stack;
     var style = stack.pop();
 
     stack.push(function(canvas) {
       canvas.strokeStyle(style);
     });
   },
-  fillStyle: function(stack) {
+  fillStyle: function(context) {
+    var stack = context.stack;
     var style = stack.pop();
 
     stack.push(function(canvas) {
       canvas.fillStyle(style);
     });
   },
-  quadraticCurveTo: function(stack) {
+  quadraticCurveTo: function(context) {
+    var stack = context.stack;
     var controlPoint = stack.pop();
     var newPoint = stack.pop();
 
     stack.push(`q ${newPoint[0]} ${newPoint[1]} ${controlPoint[0]} ${controlPoint[1]}`);
   },
-  moveTo: function(stack) {
+  moveTo: function(context) {
+    var stack = context.stack;
     var newPoint = stack.pop();
 
     stack.push(`m ${newPoint[0]} ${newPoint[1]}`);
   },
-  closePath: function(stack) {
+  closePath: function(context) {
+    var stack = context.stack;
     stack.push(`z`);
   },
 };

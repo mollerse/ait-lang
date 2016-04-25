@@ -1,17 +1,21 @@
 var fs = require('fs');
 
-var compiler = require('./compiler');
-var evaluator = require('./evaluator');
+var compile = require('./compile');
+var evaluate = require('./evaluate');
 
 function interpret(file) {
-  var ast = compiler.compile(file);
+  var ast = compile(file);
 
   var stdlib = require('../lang/stdlib');
-  var context = {stack: [], lexicon: Object.assign({}, stdlib)};
+  var context = {
+    stack: [],
+    lexicon: Object.assign({}, stdlib),
+    src: file
+  };
 
-  return evaluator.evaluate(ast, context);
+  return evaluate(ast, context);
 }
 
 var context = interpret('./examples/circle.ait');
-console.log(JSON.stringify(context.stack, null, 2));
+console.log(context.stack);
 // console.log(global.canvas);

@@ -1,35 +1,37 @@
-#load ./colors ;
-#load ./trigonometry ;
-#load ./random ;
+#load ./colors;
+#load ./trigonometry;
+#load ./random;
 
-teal: 180 85 60 hsl ;
-black: 0 0 0 hsl ;
+hsl: "hsl(%s, %s%, %s%)" replace replace replace ;
+teal: 180 85 60 hsl;
+black: 0 0 0 hsl;
 
-topLeftCorner: <width -1 * 2 / <height  -1 * 2 / ;
+topLeftCorner: <width -1 * 2 / <height  -1 * 2 /;
 
-fillBackground: [ topLeftCorner <width <height fillRect ] <context ;
+fillBackground: [ topLeftCorner <width <height fillRect ] <context;
 
-random25: -25 25 random2 ;
+random25: -25 25 random2;
 
 calcNextAlongCircle:
   random25 <+0
-  3 2rad <+1 ;
+  3 2rad <+1;
 
 calcNextControlPoint:
-  6 2rad <+1 ;
+  6 2rad <+1;
 
+//TODO: This is buggy :D
 circle:
   dup [ moveTo ] dip
   [ dup calcNextAlongCircle [ calcNextControlPoint ] dip quadraticCurveTo ]
-  [ <1 360 <= ]
+  [ 1> 360 <= ]
   while
-  closePath ;
+  closePath;
 
 config:
   [ <width 2 / <height 2 / translate ] <context
   [ 2.5 lineWidth ] <context
   [ 0.5 globalAlpha ] <context
   [ teal strokeStyle ] <context
-  [ black fillStyle ] <context ;
+  [ black fillStyle ] <context;
 
-config fillBackground ( 25 0 ) circle ;
+config fillBackground ( 25 0 ) circle;

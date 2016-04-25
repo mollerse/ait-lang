@@ -1,4 +1,2 @@
 hsl: "hsl(%s, %s%, %s%)" replace replace replace ;
 rgb: "rgb(%s, %s, %s)" replace replace replace ;
-
-#export all ;

@@ -1,19 +1,30 @@
-var evaluator = require('../../src/evaluator');
+var evaluate = require('../../src/evaluate');
 
 module.exports = {
-  '.': function(stack) {
+  '.': function(context) {
+    var stack = context.stack;
     console.log(stack.pop())
   },
-  'dup': function(stack) {
+  'dup': function(context) {
+    var stack = context.stack;
     var a = stack.pop();
     stack.push(a);
     stack.push(a);
   },
-  'dip': function(stack, lexicon) {
+  'dip': function(context) {
+    var stack = context.stack;
     var quotation = stack.pop();
     var toBeSaved = stack.pop();
 
-    evaluator.evaluate([quotation], {stack: stack, lexicon: lexicon});
+    evaluate([quotation.body], context);
     stack.push(toBeSaved);
+  },
+  'swap': function(context) {
+    var stack = context.stack;
+    var second = stack.pop();
+    var first = stack.pop();
+
+    stack.push(first);
+    stack.push(second);
   }
 };

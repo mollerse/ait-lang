@@ -20,5 +20,3 @@
 
 <+0: [ dup 0> ] dip + <0 ;
 <+1: [ dup 1> ] dip + <1 ;
-
-#export 2carth 2polar 2rad 2deg <+0 <+1 ;

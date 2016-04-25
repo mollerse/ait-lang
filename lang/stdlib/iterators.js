@@ -1,6 +1,7 @@
-var evaluator = require('../../src/evaluator');
+var evaluate = require('../../src/evaluate');
 
-function runWhileCheck(check, stack, lexicon) {
+function runWhileCheck(checkQuotation, context) {
+  var stack = context.stack;
   //Duplicate the top of the stack
   //One for consumption by check
   //One for next iteration
@@ -9,24 +10,25 @@ function runWhileCheck(check, stack, lexicon) {
   stack.push(topOfStack);
 
   //Run check
-  evaluator.evaluate([check], {stack: stack, lexicon: lexicon});
+  evaluate([checkQuotation.body], context);
 
   //Return the result of the check
   return stack.pop();
 }
 
 module.exports = {
-  'while': function(stack, lexicon) {
-    var check = stack.pop();
-    var loopbody = stack.pop();
+  'while': function(context) {
+    var stack = context.stack;
+    var checkQuotation = stack.pop();
+    var loopQuotation = stack.pop();
 
-    var result = runWhileCheck(check, stack, lexicon);
+    var result = runWhileCheck(checkQuotation, context);
 
     while(result) {
-      evaluator.evaluate([loopbody], {stack: stack, lexicon: lexicon});
+      evaluate([loopQuotation.body], context);
 
       //Rerun the check
-      result = runWhileCheck(check, stack, lexicon);
+      result = runWhileCheck(checkQuotation, context);
     }
   }
 };
