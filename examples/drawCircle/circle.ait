@@ -37,4 +37,4 @@ config:
   [ teal strokeStyle ] <context
   [ black fillStyle ] <context;
 
-config fillBackground ( 150 0 ) circle stroke ;
+config fillBackground ( 150 0 ) circle ;

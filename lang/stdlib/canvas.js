@@ -93,8 +93,5 @@ module.exports = {
   closePath: function(context) {
     var stack = context.stack;
     stack.push(`Z`);
-  },
-  stroke: function(context) {
-    console.log(context.stack.join(' '));
   }
 };
