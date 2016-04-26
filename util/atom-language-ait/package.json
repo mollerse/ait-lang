@@ -1,0 +1,14 @@
+{
+  "name": "language-ait",
+  "version": "1.0.0",
+  "description": "Highlighting for the Ait langauge",
+  "keywords": [
+    "language",
+    "grammar"
+  ],
+  "repository": "https://github.com/mollerse/atom-language-ait",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  }
+}
