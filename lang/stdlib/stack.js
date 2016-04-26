@@ -22,11 +22,11 @@ module.exports = {
   },
   'swap': function(context) {
     var stack = context.stack;
-    var second = stack.pop();
-    var first = stack.pop();
+    var a = stack.pop();
+    var b = stack.pop();
 
-    stack.push(first);
-    stack.push(second);
+    stack.push(a);
+    stack.push(b);
   },
   'stack': function(context) {
     context.stack.push(context.stack);

@@ -82,17 +82,17 @@ module.exports = {
     var controlPoint = stack.pop();
     var newPoint = stack.pop();
 
-    stack.push(`q ${newPoint[0]} ${newPoint[1]} ${controlPoint[0]} ${controlPoint[1]}`);
+    stack.push(`Q ${newPoint[0]} ${newPoint[1]} ${controlPoint[0]} ${controlPoint[1]}`);
   },
   moveTo: function(context) {
     var stack = context.stack;
     var newPoint = stack.pop();
 
-    stack.push(`m ${newPoint[0]} ${newPoint[1]}`);
+    stack.push(`M ${newPoint[0]} ${newPoint[1]}`);
   },
   closePath: function(context) {
     var stack = context.stack;
-    stack.push(`z`);
+    stack.push(`Z`);
   },
   stroke: function(context) {
     console.log(context.stack.join(' '));
