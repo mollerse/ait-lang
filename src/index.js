@@ -4,7 +4,8 @@ var compile = require('./compile');
 var evaluate = require('./evaluate');
 
 module.exports = function interpret(file) {
-  var ast = compile(file);
+  var source = fs.readFileSync(file, 'utf8').toString();
+  var ast = compile(source);
 
   var stdlib = require('../lang/stdlib');
   var context = {

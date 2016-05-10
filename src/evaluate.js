@@ -1,3 +1,4 @@
+var fs = require('fs');
 var path = require('path');
 var compile = require('./compile');
 
@@ -5,7 +6,7 @@ function evaluateLoad(node, context) {
   var pathToLoad = node.body;
   var filePath = path.parse(context.src);
   var fileToLoad = path.join(filePath.dir, pathToLoad);
-  var moduleAst = compile(`${fileToLoad}.ait`);
+  var moduleAst = compile(fs.readFileSync(`${fileToLoad}.ait`, 'utf8').toString());
 
   evaluate(moduleAst, context);
 }
