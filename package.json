@@ -4,7 +4,8 @@
   "description": "Compiler for the Ait language",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo 1"
+    "test": "echo 1",
+    "repl": "budo ./web/ait.js -l -o --title \"Ait REPL\" -- -t brfs"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,10 @@
   "homepage": "https://github.com/mollerse/ait-lang#readme",
   "dependencies": {
     "lodash.clonedeep": "^4.3.2"
+  },
+  "devDependencies": {
+    "brfs": "^1.4.3",
+    "browserify": "^13.0.1",
+    "budo": "^8.2.2"
   }
 }

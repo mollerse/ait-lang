@@ -1,0 +1,70 @@
+hsl: "hsl(%s, %s%, %s%)" replace replace replace ;
+rgb: "rgb(%s, %s, %s)" replace replace replace ;
+
+2carthX:
+  dup 1> [ 0> ] dip cos * ;
+
+2carthY:
+  dup 1> [ 0> ] dip sin * ;
+
+2carth: ( 0 0 ) [ dup 2carthX ] dip swap <0 [ 2carthY ] dip swap <1 ;
+
+2polarR:
+  dup 0> dup * [ 1> dup * ] dip sqrt ;
+
+2polarPhi:
+  dup 1> [ 0> ] dip atan2 ;
+
+2polar: ( 0 0 ) [ dup 2polarR ] dip swap <0 [ 2polarPhi ] dip swap <1 ;
+
+2rad: 180 / PI * ;
+
+2deg: PI / 180 * ;
+
+<+0: [ dup 0> ] dip + <0 ;
+<+1: [ dup 1> ] dip + <1 ;
+<-0: [ dup 0> ] dip - <0 ;
+<-1: [ dup 1> ] dip - <1 ;
+
+random1L: dup 1 - + random * ;
+random1U: random * ;
+random2: dup [ swap - ] dip + random * ;
+
+
+debug: dup . ;
+debugstack: stack . ;
+
+hsl: "hsl(%s, %s%, %s%)" replace replace replace ;
+teal: 180 85 60 hsl ;
+black: 0 0 0 hsl ;
+
+topLeftCorner: <width -1 * 2 / <height  -1 * 2 / ;
+
+fillBackground: [ topLeftCorner <width <height fillRect ] <context ;
+
+random25: -25 25 random2 ;
+random15: -15 15 random2 ;
+
+calcNextControlPoint:
+  random25 <-0
+  3 2rad <+1 ;
+
+calcNextAlongCircle:
+  6 2rad <+1 ;
+
+circle:
+  dup [ 2carth moveTo ] dip
+  [ dup [ calcNextControlPoint ] dip calcNextAlongCircle dup [ 2carth [ 2carth ] dip quadraticCurveTo ] dip ]
+  [ 1> 2 PI * 6 2rad - <= ]
+  while
+  drop
+  closePath ;
+
+config:
+  [ <width 2 / <height 2 / translate ] <context
+  [ 2.5 lineWidth ] <context
+  [ 0.5 globalAlpha ] <context
+  [ teal strokeStyle ] <context
+  [ black fillStyle ] <context;
+
+config fillBackground ( 150 0 ) random15 <-0 circle path ;
