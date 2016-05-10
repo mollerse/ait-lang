@@ -6,5 +6,6 @@ module.exports = Object.assign({},
   require('./string'),
   require('./canvas'),
   require('./iterators'),
-  require('./logic')
+  require('./logic'),
+  require('./svg')
 );
