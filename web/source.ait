@@ -28,14 +28,10 @@ rgb: "rgb(%s, %s, %s)" replace replace replace ;
 
 random1L: dup 1 - + random * ;
 random1U: random * ;
-random2: dup [ swap - ] dip + random * ;
-
-
-debug: dup . ;
-debugstack: stack . ;
+random2: dup [ - random * ] dip + ;
 
 hsl: "hsl(%s, %s%, %s%)" replace replace replace ;
-teal: 180 85 60 hsl ;
+teal: 60 85 180 hsl ;
 black: 0 0 0 hsl ;
 
 topLeftCorner: <width -1 * 2 / <height  -1 * 2 / ;
@@ -43,10 +39,9 @@ topLeftCorner: <width -1 * 2 / <height  -1 * 2 / ;
 fillBackground: [ topLeftCorner <width <height fillRect ] <context ;
 
 random25: -25 25 random2 ;
-random15: -15 15 random2 ;
 
 calcNextControlPoint:
-  random25 <-0
+  random25 <+0
   3 2rad <+1 ;
 
 calcNextAlongCircle:
@@ -60,11 +55,20 @@ circle:
   drop
   closePath ;
 
+setTealStroke: [ teal strokeStyle ] <context ;
+setPinkStroke: [ "#d36fc8" strokeStyle ] <context ;
+setBlueStroke: [ "#2347e6" strokeStyle ] <context ;
+
 config:
   [ <width 2 / <height 2 / translate ] <context
   [ 2.5 lineWidth ] <context
   [ 0.5 globalAlpha ] <context
   [ teal strokeStyle ] <context
-  [ black fillStyle ] <context;
+  [ black fillStyle ] <context ;
 
-config fillBackground ( 150 0 ) random15 <-0 circle path ;
+config [
+  fillBackground
+  ( 175 0 ) circle setTealStroke stroke
+  ( 125 0 ) circle setPinkStroke stroke
+  ( 150 0 ) circle setBlueStroke stroke
+] raf ;

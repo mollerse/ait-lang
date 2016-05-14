@@ -11,11 +11,11 @@ var doEval = document.createElement('button');
 doEval.textContent = 'Evaluate';
 var output = document.createElement('output');
 
-var canvas = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-canvas.setAttributeNS(null, 'viewBox', '-150 -150 300 300');
-canvas.style.display = 'block';
-canvas.style.height = '500px';
-canvas.style.width = '500px';
+var canvas = document.createElement('canvas');
+canvas.height = '500';
+canvas.width = '500';
+
+var ctx = canvas.getContext('2d');
 
 document.body.appendChild(source);
 document.body.appendChild(doEval);
@@ -30,26 +30,11 @@ function interpret(source) {
     stack: [],
     lexicon: Object.assign({}, stdlib),
     src: 'local',
+    ctx: ctx,
     canvas: canvas
   };
 
   return evaluate(ast, context);
 }
 
-function runEval() {
-  var lastFrame = 0;
-  requestAnimationFrame(function inner(t) {
-    var delta = t - lastFrame;
-    requestAnimationFrame(inner);
-
-    if(lastFrame && delta < 66) {
-      return;
-    }
-
-    canvas.innerHTML = '';
-    interpret(source.value);
-    lastFrame = t;
-  });
-}
-
-doEval.addEventListener('click', runEval);
+doEval.addEventListener('click', () => interpret(source.value));
