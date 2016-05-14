@@ -1,29 +1,22 @@
 var evaluate = require('../../src/evaluate');
 
-var globalCanvas = global.canvas = {
-  fillRect: () => {},
-  translate: () => {},
-  lineWidth: () => {},
-  globalAlpha: () => {},
-  strokeStyle: () => {},
-  fillStyle: () => {},
-}
-
 module.exports = {
   '<height': function(context) {
     var stack = context.stack;
-    stack.push(100);
+    var canvas = context.canvas;
+    stack.push(canvas.height);
   },
   '<width': function(context) {
     var stack = context.stack;
-    stack.push(100);
+    var canvas = context.canvas;
+    stack.push(canvas.width);
   },
   '<context': function(context) {
     var stack = context.stack;
     var quotation = stack.pop();
     evaluate([quotation.body], context);
     var setter = stack.pop();
-    setter(globalCanvas);
+    setter(context.ctx);
   },
   fillRect: function(context) {
     var stack = context.stack;
@@ -32,8 +25,8 @@ module.exports = {
     var y = stack.pop();
     var x = stack.pop();
 
-    stack.push(function(canvas) {
-      canvas.fillRect(x, y, width, height);
+    stack.push(function(ctx) {
+      ctx.fillRect(x, y, width, height);
     });
   },
   translate: function(context) {
@@ -41,40 +34,40 @@ module.exports = {
     var y = stack.pop();
     var x = stack.pop();
 
-    stack.push(function(canvas) {
-      canvas.translate(x, y);
+    stack.push(function(ctx) {
+      ctx.translate(x, y);
     });
   },
   lineWidth: function(context) {
     var stack = context.stack;
     var width = stack.pop();
 
-    stack.push(function(canvas) {
-      canvas.lineWidth(width);
+    stack.push(function(ctx) {
+      ctx.lineWidth = width;
     });
   },
   globalAlpha: function(context) {
     var stack = context.stack;
     var alpha = stack.pop();
 
-    stack.push(function(canvas) {
-      canvas.globalAlpha(alpha);
+    stack.push(function(ctx) {
+      ctx.globalAlpha = alpha;
     });
   },
   strokeStyle: function(context) {
     var stack = context.stack;
     var style = stack.pop();
 
-    stack.push(function(canvas) {
-      canvas.strokeStyle(style);
+    stack.push(function(ctx) {
+      ctx.strokeStyle = style;
     });
   },
   fillStyle: function(context) {
     var stack = context.stack;
     var style = stack.pop();
 
-    stack.push(function(canvas) {
-      canvas.fillStyle(style);
+    stack.push(function(ctx) {
+      ctx.fillStyle = style;
     });
   },
   quadraticCurveTo: function(context) {
@@ -93,5 +86,13 @@ module.exports = {
   closePath: function(context) {
     var stack = context.stack;
     stack.push(`Z`);
+  },
+  stroke: function(context) {
+    var ctx = context.ctx;
+    var pathData = context.stack.join();
+    context.stack = [];
+    var p = new Path2D(pathData);
+    ctx.stroke(p);
+    prevPath = pathData;
   }
 };
