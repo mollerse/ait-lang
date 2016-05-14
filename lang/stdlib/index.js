@@ -7,5 +7,5 @@ module.exports = Object.assign({},
   require('./canvas'),
   require('./iterators'),
   require('./logic'),
-  require('./svg')
+  require('./dom')
 );
