@@ -1,23 +1,24 @@
-var sh = require('./stringhelpers');
-var startsWith = sh.startsWith;
-var endsWith = sh.endsWith;
-var contains = sh.contains;
-var splitOnFirstOf = sh.splitOnFirstOf;
+const {
+  startsWith,
+  endsWith,
+  contains,
+  splitOnFirstOf
+} = sh = require('./stringhelpers');
 
-var isComment = startsWith.bind(null, '//');
-var isBlockTerminator = endsWith.bind(null, ';');
+const isComment = startsWith.bind(null, '//');
+const isBlockTerminator = endsWith.bind(null, ';');
 
-var isQuotationStart = startsWith.bind(null, '[');
-var isTupleStart = startsWith.bind(null, '(');
-var isStringStart = startsWith.bind(null, '"');
+const isQuotationStart = startsWith.bind(null, '[');
+const isTupleStart = startsWith.bind(null, '(');
+const isStringStart = startsWith.bind(null, '"');
 
-var containsQuotationEnd = contains.bind(null, ']');
-var containsTupleEnd = contains.bind(null, ')');
-var containsStringEnd = contains.bind(null, '"');
+const containsQuotationEnd = contains.bind(null, ']');
+const containsTupleEnd = contains.bind(null, ')');
+const containsStringEnd = contains.bind(null, '"');
 
-var splitOnFirstQuotationEnd = splitOnFirstOf.bind(null, ']');
-var splitOnFirstTupleEnd = splitOnFirstOf.bind(null, ')');
-var splitOnFirstStringEnd = splitOnFirstOf.bind(null, '"');
+const splitOnFirstQuotationEnd = splitOnFirstOf.bind(null, ']');
+const splitOnFirstTupleEnd = splitOnFirstOf.bind(null, ')');
+const splitOnFirstStringEnd = splitOnFirstOf.bind(null, '"');
 
 //Normalize syntax
 function toFragments(token) {
@@ -35,22 +36,24 @@ function toFragments(token) {
       return _toFragment(token.slice(1), fragments);
     }
 
+    let parts;
+
     if(containsQuotationEnd(token)) {
-      var parts = splitOnFirstQuotationEnd(token);
+      parts = splitOnFirstQuotationEnd(token);
       fragments.push(parts[0]);
       fragments.push(parts[1]);
       return _toFragment(parts[2], fragments);
     }
 
     if(containsTupleEnd(token)) {
-      var parts = splitOnFirstTupleEnd(token);
+      parts = splitOnFirstTupleEnd(token);
       fragments.push(parts[0]);
       fragments.push(parts[1]);
       return _toFragment(parts[2], fragments);
     }
 
     if(containsStringEnd(token)) {
-      var parts = splitOnFirstStringEnd(token);
+      parts = splitOnFirstStringEnd(token);
       fragments.push(parts[0]);
       fragments.push(parts[1]);
       return _toFragment(parts[2], fragments);
@@ -62,7 +65,6 @@ function toFragments(token) {
   }
 
   return _toFragment(token, []);
-
 }
 
 function toTokens(block) {
@@ -84,7 +86,7 @@ function toBlocks(lines) {
       return blocks;
     }
 
-    var line = lines.pop();
+    const line = lines.pop();
 
     if(isComment(line)) {
       blocks.push(line);
@@ -105,7 +107,7 @@ function toBlocks(lines) {
 }
 
 module.exports = function tokenize(source) {
-  var lines = source
+  const lines = source
     .split('\n')
     .filter(c => !!c.trim());
 

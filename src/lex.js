@@ -1,10 +1,14 @@
-var sh = require('./stringhelpers');
-var isLoad = sh.startsWith.bind(null, '#load');
-var isComment = sh.startsWith.bind(null, '//');
-var isDefine = sh.endsWith.bind(null, ':');
+const {
+  startsWith,
+  endsWith
+} = require('./stringhelpers');
+
+const isLoad = startsWith.bind(null, '#load');
+const isComment = startsWith.bind(null, '//');
+const isDefine = endsWith.bind(null, ':');
 
 module.exports = function lex(block) {
-  var type;
+  let type;
   if(isLoad(block[0])) {
     type = 'load';
   } else if(isComment(block[0])) {

@@ -11,8 +11,8 @@ module.exports.contains = function contains(substring, string) {
 };
 
 module.exports.splitOnFirstOf = function splitOnFirstOf(substring, string) {
-  var first = string.slice(0, string.indexOf(substring));
-  var second = string.slice(string.indexOf(substring) + 1);
+  const first = string.slice(0, string.indexOf(substring));
+  const second = string.slice(string.indexOf(substring) + 1);
 
   return [first, substring, second];
 };
