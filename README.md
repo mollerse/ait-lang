@@ -5,10 +5,10 @@
 Programming language for visual and creative experiments on the web. Heavily
 influenced by the Forth-family of languages.
 
-## Install
+## Local dev
 
-`npm install`
+Clone repo, run `npm install`
 
 ## Try it out
 
-`node examples/drawCircle/index.js > tmp.html`
+[mollerse.github.io/ait-lang](https://mollerse.github.io/ait-lang/)
