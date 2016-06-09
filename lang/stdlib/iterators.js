@@ -1,17 +1,17 @@
-var evaluate = require('../../src/evaluate');
-var copy = require('lodash.clonedeep');
+const evaluate = require('../../src/evaluate');
+const copy = require('lodash.clonedeep');
 
-function runWhileCheck(checkQuotation, context) {
-  var stack = context.stack;
+function runWhileCheck(quote, context) {
+  const {stack} = context;
   //Duplicate the top of the stack
   //One for consumption by check
   //One for next iteration
-  var topOfStack = stack.pop();
+  const topOfStack = stack.pop();
   stack.push(topOfStack);
   stack.push(copy(topOfStack));
 
   //Run check
-  evaluate([checkQuotation.body], context);
+  evaluate(quote, context);
 
   //Return the result of the check
   return stack.pop();
@@ -19,14 +19,14 @@ function runWhileCheck(checkQuotation, context) {
 
 module.exports = {
   'while': function(context) {
-    var stack = context.stack;
-    var checkQuotation = stack.pop();
-    var loopQuotation = stack.pop();
+    const {stack} = context;
+    const {body: checkQuotation} = stack.pop();
+    const {body: loopQuotation} = stack.pop();
 
-    var result = runWhileCheck(checkQuotation, context);
+    let result = runWhileCheck(checkQuotation, context);
 
     while(result) {
-      evaluate([loopQuotation.body], context);
+      evaluate(loopQuotation, context);
 
       //Rerun the check
       result = runWhileCheck(checkQuotation, context);

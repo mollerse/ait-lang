@@ -1,108 +1,52 @@
-function findIndexOfClosingSign(opener, closer, words) {
-  var opened = 0;
-  for (var i = 0; i < words.length; i++) {
-    if(words[i] === closer) {
-      if(opened > 0) {
-        opened -= 1;
-      } else {
-        return i;
-      }
-    } else if(words[i] === opener) {
-      opened += 1;
-    }
-  }
-}
+const { readFileSync } = require('fs');
+const {
+  lazy,
+  string,
+  regex,
+  alt,
+  seq,
+  eof
+} = require('parsimmon');
 
-var findIndexOfClosingBracket = findIndexOfClosingSign.bind(null, '[', ']');
-var findIndexOfClosingParen = findIndexOfClosingSign.bind(null, '(', ')');
+const newline = regex(/\n/);
+const notNewlines = regex(/[^\n]*/);
+const comment = string('#').then(notNewlines).skip(newline.or(eof));
+const whitespace = regex(/\s+/);
+const ignore = alt(whitespace, comment).many();
+const lexme = p => p.skip(ignore);
 
-function parseLoad(body) {
-  return {
-    type: 'load',
-    body: body[1]
-  }
-}
+const lparen = lexme(string('('));
+const rparen = lexme(string(')'));
+const lbracket = lexme(string('['));
+const rbracket = lexme(string(']'));
+const blockterminator = lexme(string(';'));
+const path = lexme(regex(/[a-zA-Z0-9._~!$&'()*+,;=:@%/-]+/)).desc('a file-path');
+const str = lexme(regex(/"((?:\\.|.)*?)"/, 1)).desc('a quoted string');
+const word = lexme(regex(/[a-zA-Z0-9.<>+=\\*%/-]+/)).desc('an Ait word');
+const load = lexme(string('@load'));
+const colon = lexme(string(':'));
 
-function parseComment(body) {
-  return {
-    type: 'comment',
-    body: body.join(' ').slice(2).trim()
-  }
-}
+const expressions = lazy('top-level expressions', function() {
+  return alt(
+    stringLiteral,
+    definition,
+    wordLiteral,
+    quotation,
+    tuple,
+    loadDirective
+  );
+});
 
-function parseDefine(body) {
-  return {
-    type: 'define',
-    body: {
-      keyword: body[0].slice(0, -1),
-      definition: parseWords(body.slice(1))
-    }
-  }
-}
+const stringLiteral = str.map(s => ({type: 'string', body: s}));
+const wordLiteral = word.map(w => ({type: 'word', body: w}));
+const quotation = lbracket.then(expressions.many()).skip(rbracket).map(q => ({type: 'quotation', body: q}));
+const tuple = lparen.then(expressions.many()).skip(rparen).map(t => ({type: 'tuple', body: t}));
+const definition = seq(word.skip(colon), expressions.many(), blockterminator)
+  .map(d => ({type: 'definition', body: {keyword: d[0], body: d[1]}}));
+const loadDirective = load.then(path).skip(blockterminator).map(d => ({type: 'load', body: d}));
 
-function parseWords(body) {
-  function _parseWords(words, ast) {
-    if(!words.length) {
-      return ast;
-    }
+const final = ignore.then(expressions.many());
 
-    var word = words.shift();
-    var node;
-
-    if(/^[\d\.\-]+$/.test(word) && !isNaN(parseFloat(word))) {
-      ast.push({type: 'number', body: parseFloat(word)});
-      return _parseWords(words, ast);
-    }
-
-    if(word === '[') {
-      var i = findIndexOfClosingBracket(words);
-      var wordsInsideQuote = words.slice(0, i);
-      var wordsLeft = words.slice(i + 1);
-      ast.push({
-        type: 'quotation',
-        body: parseWords(wordsInsideQuote)
-      });
-      return _parseWords(wordsLeft, ast);
-    }
-
-    if(word === '(') {
-      var i = findIndexOfClosingParen(words);
-      var wordsInsideParen = words.slice(0, i);
-      var wordsLeft = words.slice(i + 1);
-      ast.push({
-        type: 'tuple',
-        body: parseWords(wordsInsideParen)
-      });
-      return _parseWords(wordsLeft, ast);
-    }
-
-    if(word === '"') {
-      var i = words.indexOf('"');
-      var wordsLeft = words.slice(i + 1);
-      ast.push({
-        type: 'string',
-        body: words.slice(0, i).join('')
-      });
-      return _parseWords(wordsLeft, ast);
-    }
-
-    ast.push({type: 'word', body: word});
-    return _parseWords(words, ast);
-  }
-
-  return {
-    type: 'words',
-    body: _parseWords(body, [])
-  };
-}
-
-
-var tokenTypes = {
-  'load': parseLoad,
-  'comment': parseComment,
-  'define': parseDefine,
-  'words': parseWords
-}
-module.exports = function parse(typedToken) {
-  return tokenTypes[typedToken.type](typedToken.body);
-}
+module.exports = function parse(src) {
+  return final.parse(src).value;
+};

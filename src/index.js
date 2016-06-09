@@ -1,14 +1,14 @@
-var fs = require('fs');
+const {readFileSync} = require('fs');
 
-var compile = require('./compile');
-var evaluate = require('./evaluate');
+const parse = require('./parse');
+const evaluate = require('./evaluate');
 
 module.exports = function interpret(file) {
-  var source = fs.readFileSync(file, 'utf8').toString();
-  var ast = compile(source);
+  const source = readFileSync(file, 'utf8').toString();
+  const ast = parse(source);
 
-  var stdlib = require('../lang/stdlib');
-  var context = {
+  const stdlib = require('../lang/stdlib');
+  const context = {
     stack: [],
     lexicon: Object.assign({}, stdlib),
     src: file

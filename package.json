@@ -23,12 +23,15 @@
   },
   "homepage": "https://github.com/mollerse/ait-lang#readme",
   "dependencies": {
-    "lodash.clonedeep": "^4.3.2"
+    "lodash.clonedeep": "^4.3.2",
+    "parsimmon": "^0.7.1"
   },
   "devDependencies": {
     "brfs": "^1.4.3",
     "browserify": "^13.0.1",
     "budo": "^8.2.2"
   },
-  "engines": { "node" : ">=6.0.0" }
+  "engines": {
+    "node": ">=6.0.0"
+  }
 }

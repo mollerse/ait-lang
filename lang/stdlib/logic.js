@@ -1,13 +1,16 @@
-var fns = require('./functions');
+const {
+  genericNullary,
+  genericBinary
+} = require('./functions');
 
 module.exports = {
-  'true': fns.genericNullary(() => true),
-  'false': fns.genericNullary(() => false),
-  '>': fns.genericBinary((a, b) => a > b),
-  '<': fns.genericBinary((a, b) => a < b),
-  '==': fns.genericBinary((a, b) => a === b),
-  '>=': fns.genericBinary((a, b) => a >= b),
-  '<=': fns.genericBinary((a, b) => a <= b),
-  '||': fns.genericBinary((a, b) => a || b),
-  '&&': fns.genericBinary((a, b) => a && b)
+  'true': genericNullary(() => true),
+  'false': genericNullary(() => false),
+  '>': genericBinary((a, b) => a > b),
+  '<': genericBinary((a, b) => a < b),
+  '==': genericBinary((a, b) => a === b),
+  '>=': genericBinary((a, b) => a >= b),
+  '<=': genericBinary((a, b) => a <= b),
+  '||': genericBinary((a, b) => a || b),
+  '&&': genericBinary((a, b) => a && b)
 };

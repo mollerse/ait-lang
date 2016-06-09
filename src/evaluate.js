@@ -1,62 +1,62 @@
-var fs = require('fs');
-var path = require('path');
-var compile = require('./compile');
+const {readFileSync} = require('fs');
+const path = require('path');
+const parse = require('./parse');
 
-function evaluateLoad(node, context) {
-  var pathToLoad = node.body;
-  var filePath = path.parse(context.src);
-  var fileToLoad = path.join(filePath.dir, pathToLoad);
-  var moduleAst = compile(fs.readFileSync(`${fileToLoad}.ait`, 'utf8').toString());
+function evaluateLoad({body: pathToLoad}, context) {
+  const filePath = path.parse(context.src);
+  const fileToLoad = path.join(filePath.dir, pathToLoad);
+  const moduleAst = parse(readFileSync(`${fileToLoad}.ait`, 'utf8').toString());
 
   evaluate(moduleAst, context);
 }
 
-function evaluateComment(node, context) {
-  //No-op
+function evaluateDefine({body: {keyword, body}}, {lexicon}) {
+  lexicon[keyword] = body;
 }
 
-function evaluateDefine(node, context) {
-  var define = node.body
-  //We defer evaluation until use
-  context.lexicon[define.keyword] = define.definition;
-}
+function evaluateWord({body: word}, context) {
+  const {stack, lexicon} = context;
 
-function evaluateWord(word, context) {
-  if(word.type === 'quotation') {
-    //Defer evaluation of quotations
-    context.stack.push(word);
-  } else if(word.type === 'tuple') {
-    //Evaluate tuples immediatly
-    var tuple = evaluate([word.body], {lexicon: context.lexicon, stack: []}).stack;
-    context.stack.push(tuple)
-  } else if(word.type === 'string') {
-    context.stack.push(word.body);
-  } else if(word.type === 'number') {
-    context.stack.push(word.body);
-  } else if(word.type === 'word') {
-    var fn = context.lexicon[word.body];
-    if(typeof fn === 'function') {
-      fn(context);
-    } else {
-      evaluate([fn], context);
-    }
+  if(!isNaN(Number(word))) {
+    stack.push(Number(word));
+    return;
+  }
+
+  var fn = lexicon[word];
+  if(typeof fn === 'function') {
+    fn(context);
+  } else {
+    evaluate(fn, context);
   }
 }
 
-function evaluateWords(node, context) {
-  node.body.forEach(w => evaluateWord(w, context));
+function evaluateQuote(node, {stack}) {
+  stack.push(node);
+}
+
+function evaluateTuple({body: tuple}, {lexicon, stack}) {
+  const {stack: result} = evaluate(tuple, {lexicon, stack: []});
+  stack.push(result);
+}
+
+function evaluateString({body: word}, {stack}) {
+  stack.push(word);
 }
 
 var evaluate =  function evaluate(ast, context) {
   ast.forEach(function(node) {
     if(node.type === 'load') {
       evaluateLoad(node, context);
-    } else if(node.type === 'comment') {
-      evaluateComment(node, context);
-    } else if(node.type === 'define') {
+    } else if(node.type === 'definition') {
       evaluateDefine(node, context);
-    } else if(node.type === 'words') {
-      evaluateWords(node, context);
+    } else if(node.type === 'word') {
+      evaluateWord(node, context);
+    } else if(node.type === 'quotation') {
+      evaluateQuote(node, context);
+    } else if(node.type === 'tuple') {
+      evaluateTuple(node, context);
+    } else if(node.type === 'string') {
+      evaluateString(node, context);
     }
   });
 

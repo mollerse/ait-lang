@@ -2,36 +2,36 @@ var evaluate = require('../../src/evaluate');
 var copy = require('lodash.clonedeep');
 
 module.exports = {
-  '.': function(context) {
-    var stack = context.stack;
+  '.': function({stack}) {
     console.log(stack.pop())
   },
-  'dup': function(context) {
-    var stack = context.stack;
-    var a = stack.pop();
+  'dup': function({stack}) {
+    const a = stack.pop();
     stack.push(a);
     stack.push(copy(a));
   },
   'dip': function(context) {
-    var stack = context.stack;
-    var quotation = stack.pop();
-    var toBeSaved = stack.pop();
+    const {stack} = context;
+    const {body: quote} = stack.pop();
+    const toBeSaved = stack.pop();
 
-    evaluate([quotation.body], context);
+    evaluate(quote, context);
     stack.push(toBeSaved);
   },
-  'swap': function(context) {
-    var stack = context.stack;
-    var a = stack.pop();
-    var b = stack.pop();
+  'swap': function({stack}) {
+    const a = stack.pop();
+    const b = stack.pop();
 
     stack.push(a);
     stack.push(b);
   },
-  'stack': function(context) {
-    context.stack.push(context.stack);
+  'stack': function({stack}) {
+    stack.push(stack);
   },
-  'drop': function(context) {
-    context.stack.pop();
+  'drop': function({stack}) {
+    stack.pop();
+  },
+  'unstack': function(context) {
+    context.stack = [];
   }
 };

@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-var compile = require('../src/compile');
+var parse = require('../src/parse');
 var evaluate = require('../src/evaluate');
 
 var source = document.createElement('textarea');
@@ -23,7 +23,7 @@ document.body.appendChild(output);
 document.body.appendChild(canvas);
 
 function interpret(source) {
-  var ast = compile(source);
+  var ast = parse(source);
 
   var stdlib = require('../lang/stdlib');
   var context = {

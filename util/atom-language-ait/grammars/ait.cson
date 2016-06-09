@@ -8,7 +8,7 @@
 ]
 'patterns': [
   {
-    'match': '^//.*$'
+    'match': '^#.*$'
     'name': 'comment.ait'
   }
   {
@@ -19,7 +19,7 @@
         'name': 'constant.path.ait'
       '3':
         'name': 'keyword.semicolon.ait'
-    'match': '^(#.+)\\s(.+)(;)$'
+    'match': '^(@.+)\\s(.+)(;)$'
   }
   {
     'captures':

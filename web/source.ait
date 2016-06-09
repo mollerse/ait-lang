@@ -36,7 +36,7 @@ black: 0 0 0 hsl ;
 
 topLeftCorner: <width -1 * 2 / <height  -1 * 2 / ;
 
-fillBackground: [ topLeftCorner <width <height fillRect ] <context ;
+fillBackground: topLeftCorner <width <height fillRect ;
 
 random25: -25 25 random2 ;
 
@@ -55,20 +55,20 @@ circle:
   drop
   closePath ;
 
-setTealStroke: [ teal strokeStyle ] <context ;
-setPinkStroke: [ "#d36fc8" strokeStyle ] <context ;
-setBlueStroke: [ "#2347e6" strokeStyle ] <context ;
+setTealStroke: teal strokeStyle ;
+setPinkStroke: "#d36fc8" strokeStyle ;
+setBlueStroke: "#2347e6" strokeStyle ;
 
 config:
-  [ <width 2 / <height 2 / translate ] <context
-  [ 2.5 lineWidth ] <context
-  [ 0.5 globalAlpha ] <context
-  [ teal strokeStyle ] <context
-  [ black fillStyle ] <context ;
+  <width 2 / <height 2 / translate
+  2.5 lineWidth
+  0.5 globalAlpha
+  teal strokeStyle
+  black fillStyle ;
 
-config [
-  fillBackground
-  ( 175 0 ) circle setTealStroke stroke
-  ( 125 0 ) circle setPinkStroke stroke
-  ( 150 0 ) circle setBlueStroke stroke
-] raf ;
+config
+[ fillBackground
+  ( 175 0 ) circle setTealStroke stroke unstack
+  ( 125 0 ) circle setPinkStroke stroke unstack
+  ( 150 0 ) circle setBlueStroke stroke unstack ]
+raf
