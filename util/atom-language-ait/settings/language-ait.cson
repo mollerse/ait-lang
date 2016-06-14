@@ -3,4 +3,4 @@
 
 '.source.ait':
   'editor':
-    'commentStart': '//'
+    'commentStart': '#'
