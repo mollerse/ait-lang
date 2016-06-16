@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo 1",
-    "repl": "budo ./web/ait.js -l -o --title \"Ait REPL\" -- -t brfs -t [ babelify --presets [ es2015 ] ]"
+    "local-example": "budo ./examples/web/index.js -l -o --title \"Ait REPL\" -- -t brfs -t [ babelify --presets [ es2015 ] ]"
   },
   "repository": {
     "type": "git",

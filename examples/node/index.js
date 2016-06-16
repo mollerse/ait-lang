@@ -1,8 +1,8 @@
-const Node = require('../src/runtime/runtimes/node');
+const Node = require('../../src/runtime/runtimes/node');
 
 const runtime = Node();
 
-runtime.loadWords(require('../src/opt/canvas'));
+runtime.loadWords(require('../../src/opt/canvas'));
 
 runtime.setCanvasDimensions(500, 500);
 

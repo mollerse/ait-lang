@@ -1,7 +1,5 @@
 const {JSWord, nullary} = require('../runtime/interfaces');
 
-//TODO: Encode runtime requirements in a new Word-type
-
 const fillRect = JSWord(function(x, y, width, height) {
   const {ctx} = arguments[arguments.length - 1];
   ctx.fillRect(x, y, width, height);

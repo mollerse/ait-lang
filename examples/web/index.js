@@ -1,11 +1,11 @@
 const fs = require('fs');
 
-const Browser = require('../src/runtime/runtimes/browser');
+const Browser = require('../../src/runtime/runtimes/browser');
 
 const runtime = Browser();
 
-runtime.loadWords(require('../src/opt/canvas'));
-runtime.loadWords(require('../src/opt/dom'));
+runtime.loadWords(require('../../src/opt/canvas'));
+runtime.loadWords(require('../../src/opt/dom'));
 
 runtime.setCanvasDimensions(500, 500);
 

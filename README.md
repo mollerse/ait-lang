@@ -15,6 +15,6 @@ Clone repo, run `npm install`
 
 or with node.js
 
-`node node/index.js`
+`node examples/node/index.js`
 
 (this requires the [canvas](https://github.com/Automattic/node-canvas) module)
