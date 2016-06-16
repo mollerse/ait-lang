@@ -1,3 +1,4 @@
 node_modules
 
-examples/node/*.png
+examples/**/*.png
+*.log
