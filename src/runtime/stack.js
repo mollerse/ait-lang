@@ -22,6 +22,10 @@ class Stack {
   join() {
     return this.internalStack.join();
   }
+
+  stack() {
+    return this.internalStack;
+  }
 }
 
 module.exports = () => new Stack();
