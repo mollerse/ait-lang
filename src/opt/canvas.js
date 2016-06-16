@@ -54,6 +54,12 @@ const moveTo = JSWord(function([x, y]) {
 });
 moveTo.produces(0);
 
+const arc = JSWord(function([x, y], r, startAngle, endAngle, anticlockwise) {
+  const {ctx} = arguments[arguments.length - 1];
+  ctx.arc(x, y, r, startAngle, endAngle, anticlockwise);
+});
+arc.produces(0);
+
 const closePath = JSWord(function() {
   const {ctx} = arguments[arguments.length - 1];
   ctx.closePath();
@@ -65,6 +71,12 @@ const stroke = JSWord(function() {
   ctx.stroke();
 });
 stroke.produces(0);
+
+const fill = JSWord(function() {
+  const {ctx} = arguments[arguments.length - 1];
+  ctx.fill();
+});
+fill.produces(0);
 
 const height = JSWord(function() {
   const {canvas} = arguments[arguments.length - 1];
@@ -91,5 +103,7 @@ module.exports = {
   quadraticCurveTo,
   moveTo,
   closePath,
-  stroke
+  stroke,
+  arc,
+  fill
 };
