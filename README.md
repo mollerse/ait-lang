@@ -12,3 +12,9 @@ Clone repo, run `npm install`
 ## Try it out
 
 [mollerse.github.io/ait-lang](https://mollerse.github.io/ait-lang/)
+
+or with node.js
+
+`node node/index.js`
+
+(this requires the [canvas](https://github.com/Automattic/node-canvas) module)

@@ -1,0 +1,42 @@
+@load ./trig ;
+@load ./colors ;
+@load ./tupleops ;
+
+topLeftCorner: <width -1 * 2 / <height  -1 * 2 / ;
+
+fillBackground: topLeftCorner <width <height fillRect ;
+
+random2: dup [ - random * ] dip + ;
+random25: -25 25 random2 ;
+
+calcNextControlPoint:
+  random25 <+0
+  3 2rad <+1 ;
+
+calcNextAlongCircle:
+  6 2rad <+1 ;
+
+circle:
+  beginPath
+  dup [ 2carth moveTo ] dip
+  [ dup [ calcNextControlPoint ] dip calcNextAlongCircle dup [ 2carth [ 2carth ] dip quadraticCurveTo ] dip ]
+  [ dup 1> 2 PI * 6 2rad - <= ]
+  while
+  drop
+  closePath ;
+
+tealStroke: teal strokeStyle ;
+pinkStroke: pink strokeStyle ;
+blueStroke: blue strokeStyle ;
+
+config:
+  <width 2 / <height 2 / translate
+  2.5 lineWidth
+  1 globalAlpha
+  black fillStyle ;
+
+config
+fillBackground
+( 175 0 ) tealStroke circle stroke
+( 125 0 ) pinkStroke circle stroke
+( 150 0 ) blueStroke circle stroke

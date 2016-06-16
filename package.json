@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo 1",
-    "repl": "budo ./web/ait.js -l -o --title \"Ait REPL\" -- -t brfs"
+    "repl": "budo ./web/ait.js -l -o --title \"Ait REPL\" -- -t brfs -t [ babelify --presets [ es2015 ] ]"
   },
   "repository": {
     "type": "git",
@@ -27,9 +27,14 @@
     "parsimmon": "^0.7.1"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "babelify": "^7.3.0",
     "brfs": "^1.4.3",
     "browserify": "^13.0.1",
     "budo": "^8.2.2"
+  },
+  "optionalDependencies": {
+    "canvas": "^1.3.16"
   },
   "engines": {
     "node": ">=6.0.0"

@@ -1,0 +1,19 @@
+2carthX:
+  dup 1> [ 0> ] dip cos * ;
+
+2carthY:
+  dup 1> [ 0> ] dip sin * ;
+
+2carth: ( 0 0 ) [ dup 2carthX ] dip swap <0 [ 2carthY ] dip swap <1 ;
+
+2polarR:
+  dup 0> dup * [ 1> dup * ] dip sqrt ;
+
+2polarPhi:
+  dup 1> [ 0> ] dip atan2 ;
+
+2polar: ( 0 0 ) [ dup 2polarR ] dip swap <0 [ 2polarPhi ] dip swap <1 ;
+
+2rad: 180 / PI * ;
+
+2deg: PI / 180 * ;
