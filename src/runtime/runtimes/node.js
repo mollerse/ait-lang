@@ -26,17 +26,6 @@ class Node extends BaseRuntime {
     this.canvas.width = w;
   }
 
-  // addAnimation(timestamp, id) {
-  //   this.animations[timestamp] = id;
-  // }
-  //
-  // stopAnimations() {
-  //   Object.keys(this.animations).forEach(function(k) {
-  //     cancelAnimationFrame(this.animations[k]);
-  //     delete this.animations[k];
-  //   }.bind(this));
-  // }
-
   reset() {
     super.reset();
 
