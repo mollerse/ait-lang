@@ -24,9 +24,9 @@
   {
     'captures':
       '1':
-        'name': 'keyword.definition.ait'
+        'name': 'constant.definition.ait'
       '2':
-        'name': 'constant.colon.ait'
+        'name': 'keyword.colon.ait'
     'match': '^(.*)(:)\\s'
     'name': 'definition.word.ait'
   }
@@ -37,7 +37,7 @@
   {
     'captures':
       '1':
-        'name': 'constant.number.ait'
+        'name': 'entity.number.ait'
     'match': '(-?\\d+(\\.\\d+)?)(?![\\w<>+-=*%])'
   }
   {

@@ -1,55 +1,34 @@
-var fs = require('fs');
+const fs = require('fs');
 
-var parse = require('../src/parse');
-var evaluate = require('../src/evaluate');
+const Browser = require('../src/runtime/runtimes/browser');
 
-var source = document.createElement('textarea');
+const runtime = Browser();
+
+runtime.loadWords(require('../src/opt/canvas'));
+runtime.loadWords(require('../src/opt/dom'));
+
+runtime.setCanvasDimensions(500, 500);
+
+const source = document.createElement('textarea');
 source.setAttribute('rows', 50);
 source.setAttribute('cols', 80);
 source.value = fs.readFileSync(__dirname + '/source.ait');
-var doEval = document.createElement('button');
-doEval.textContent = 'Evaluate';
-var output = document.createElement('output');
-
-var canvas = document.createElement('canvas');
-canvas.height = '500';
-canvas.width = '500';
-
-var ctx = canvas.getContext('2d');
-ctx.save(); //Populate stack
-
 document.body.appendChild(source);
-document.body.appendChild(doEval);
-document.body.appendChild(output);
-document.body.appendChild(canvas);
 
-//To keep track of active requestAnimationFrames
-const rafs = {};
+const doEval = document.createElement('button');
+doEval.textContent = 'Evaluate';
+document.body.appendChild(doEval);
+
+const stopEval = document.createElement('button');
+stopEval.textContent = 'Stop';
+document.body.appendChild(stopEval);
+
+document.body.appendChild(runtime.canvas);
 
 function interpret(source) {
-  //Clear context
-  ctx.restore();
-  ctx.save();
-
-  //Clear existing rafs
-  Object.keys(rafs).forEach(function(k) {
-    cancelAnimationFrame(rafs[k]);
-    delete rafs[k];
-  });
-
-  var ast = parse(source);
-
-  var stdlib = require('../lang/stdlib');
-  var context = {
-    stack: [],
-    lexicon: Object.assign({}, stdlib),
-    src: 'local',
-    ctx: ctx,
-    canvas: canvas,
-    metadata: {rafs}
-  };
-
-  return evaluate(ast, context);
+  runtime.reset();
+  runtime.evaluate(source);
 }
 
 doEval.addEventListener('click', () => interpret(source.value));
+stopEval.addEventListener('click', () => runtime.stopAnimations());

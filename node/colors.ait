@@ -1,0 +1,7 @@
+hsl: "hsl(%s, %s%, %s%)" replace replace replace ;
+rgb: "rgb(%s, %s, %s)" replace replace replace ;
+
+teal: 60 85 180 hsl ;
+black: 0 0 0 hsl ;
+pink: "#d36fc8" ;
+blue: "#2347e6" ;

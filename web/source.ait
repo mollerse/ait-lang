@@ -1,6 +1,12 @@
 hsl: "hsl(%s, %s%, %s%)" replace replace replace ;
 rgb: "rgb(%s, %s, %s)" replace replace replace ;
 
+teal: 60 85 180 hsl ;
+black: 0 0 0 hsl ;
+pink: "#d36fc8" ;
+blue: "#2347e6" ;
+
+
 2carthX:
   dup 1> [ 0> ] dip cos * ;
 
@@ -26,18 +32,11 @@ rgb: "rgb(%s, %s, %s)" replace replace replace ;
 <-0: [ dup 0> ] dip - <0 ;
 <-1: [ dup 1> ] dip - <1 ;
 
-random1L: dup 1 - + random * ;
-random1U: random * ;
-random2: dup [ - random * ] dip + ;
-
-hsl: "hsl(%s, %s%, %s%)" replace replace replace ;
-teal: 60 85 180 hsl ;
-black: 0 0 0 hsl ;
-
 topLeftCorner: <width -1 * 2 / <height  -1 * 2 / ;
 
 fillBackground: topLeftCorner <width <height fillRect ;
 
+random2: dup [ - random * ] dip + ;
 random25: -25 25 random2 ;
 
 calcNextControlPoint:
@@ -48,27 +47,27 @@ calcNextAlongCircle:
   6 2rad <+1 ;
 
 circle:
+  beginPath
   dup [ 2carth moveTo ] dip
   [ dup [ calcNextControlPoint ] dip calcNextAlongCircle dup [ 2carth [ 2carth ] dip quadraticCurveTo ] dip ]
-  [ 1> 2 PI * 6 2rad - <= ]
+  [ dup 1> 2 PI * 6 2rad - <= ]
   while
   drop
   closePath ;
 
-setTealStroke: teal strokeStyle ;
-setPinkStroke: "#d36fc8" strokeStyle ;
-setBlueStroke: "#2347e6" strokeStyle ;
+tealStroke: teal strokeStyle ;
+pinkStroke: pink strokeStyle ;
+blueStroke: blue strokeStyle ;
 
 config:
   <width 2 / <height 2 / translate
   2.5 lineWidth
   0.5 globalAlpha
-  teal strokeStyle
   black fillStyle ;
 
 config
 [ fillBackground
-  ( 175 0 ) circle setTealStroke stroke unstack
-  ( 125 0 ) circle setPinkStroke stroke unstack
-  ( 150 0 ) circle setBlueStroke stroke unstack ]
+  ( 175 0 ) circle tealStroke stroke unstack
+  ( 125 0 ) circle pinkStroke stroke unstack
+  ( 150 0 ) circle blueStroke stroke unstack ]
 raf
