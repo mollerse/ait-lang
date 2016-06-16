@@ -25,8 +25,9 @@ class AitWord extends Word {
     this.consume = n;
   }
 
-  evaluate() {
-    this.evalfn(this.word, this.context);
+  evaluate(context) {
+    context = context || this.context;
+    this.evalfn(this.word, context);
   }
 }
 

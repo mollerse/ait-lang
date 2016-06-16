@@ -3,6 +3,7 @@ const path = require('path');
 
 const parse = require('../parser/parse');
 const {AitWord} = require('./interfaces');
+const internalStack = require('./stack');
 
 var evaluate = function evaluate(ast, context) {
   ast.forEach(function(node) {
@@ -60,8 +61,8 @@ function evaluateQuote({body}, context) {
 }
 
 function evaluateTuple({body: tuple}, {lexicon, stack}) {
-  const {stack: result} = evaluate(tuple, {lexicon, stack: []});
-  stack.push(result);
+  const {stack: result} = evaluate(tuple, {lexicon, stack: internalStack()});
+  stack.push(result.stack());
 }
 
 function evaluateString({body: word}, {stack}) {
