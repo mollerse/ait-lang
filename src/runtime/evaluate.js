@@ -27,12 +27,37 @@ var evaluate = function evaluate(ast, runtime) {
 
 module.exports = evaluate;
 
-function evaluateLoad({body: pathToLoad}, runtime) {
-  const filePath = path.parse(runtime.src);
-  const fileToLoad = path.join(filePath.dir, pathToLoad);
-  const moduleAst = parse(readFileSync(`${fileToLoad}.ait`, 'utf8').toString());
+function resolveModule(modulePath, runtime) {
+  if(!path.isAbsolute(modulePath)) {
+    const rootFile = path.parse(runtime.root);
+    modulePath = path.join(rootFile.dir, modulePath);
+  }
+  try {
+    //See if it resolves to a module
+    return require.resolve(modulePath);
+  } catch (e) {
+    try {
+      //Since it did not resolve to a module, see if it resolves to an ait-file
+      return require.resolve(`${modulePath}.ait`);
+    } catch (e) {
+      throw new Error(`Could not load module ${modulePath}`);
+    }
+  }
+}
 
-  evaluate(moduleAst, runtime);
+function evaluateLoad({body: pathToLoad}, runtime) {
+  const modulePath = resolveModule(pathToLoad, runtime);
+  const ext = path.parse(modulePath).ext;
+
+  if(ext === '.js') {
+    const module = require(modulePath);
+    runtime.loadWords(module);
+  } else if(ext === '.ait') {
+    const moduleAst = parse(readFileSync(modulePath, 'utf8').toString());
+    evaluate(moduleAst, runtime);
+  } else {
+    throw new Error(`File type ${ext} is not supported. Try loading an .ait or .js file!`);
+  }
 }
 
 function evaluateDefine({body: {keyword, body}}, runtime) {

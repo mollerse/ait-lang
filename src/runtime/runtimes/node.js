@@ -35,7 +35,7 @@ class Node extends BaseRuntime {
   }
 
   evaluate(file) {
-    this.src = file;
+    this.root = file;
     const source = readFileSync(file, 'utf8').toString();
 
     super.evaluate(source);

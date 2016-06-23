@@ -1,3 +1,4 @@
+@load ../../src/opt/canvas ;
 @load ./trig ;
 @load ./colors ;
 @load ./tupleops ;
