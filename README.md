@@ -11,10 +11,6 @@ Clone repo, run `npm install`
 
 ## Try it out
 
-[mollerse.github.io/ait-lang](https://mollerse.github.io/ait-lang/)
+[mollerse.github.io/ait-playground](https://mollerse.github.io/ait-playground/)
 
-or with node.js
-
-`node examples/node/index.js`
-
-(this requires the [canvas](https://github.com/Automattic/node-canvas) module)
+you can see more examples at the [Ait Playground](https://github.com/mollerse/ait-playground/)
