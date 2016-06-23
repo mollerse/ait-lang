@@ -5,43 +5,43 @@ const parse = require('../parser/parse');
 const {AitWord} = require('./interfaces');
 const internalStack = require('./stack');
 
-var evaluate = function evaluate(ast, context) {
+var evaluate = function evaluate(ast, runtime) {
   ast.forEach(function(node) {
     if(node.type === 'load') {
-      evaluateLoad(node, context);
+      evaluateLoad(node, runtime);
     } else if(node.type === 'definition') {
-      evaluateDefine(node, context);
+      evaluateDefine(node, runtime);
     } else if(node.type === 'word') {
-      evaluateWord(node, context);
+      evaluateWord(node, runtime);
     } else if(node.type === 'quotation') {
-      evaluateQuote(node, context);
+      evaluateQuote(node, runtime);
     } else if(node.type === 'tuple') {
-      evaluateTuple(node, context);
+      evaluateTuple(node, runtime);
     } else if(node.type === 'string') {
-      evaluateString(node, context);
+      evaluateString(node, runtime);
     }
   });
 
-  return context;
+  return runtime;
 };
 
 module.exports = evaluate;
 
-function evaluateLoad({body: pathToLoad}, context) {
-  const filePath = path.parse(context.src);
+function evaluateLoad({body: pathToLoad}, runtime) {
+  const filePath = path.parse(runtime.src);
   const fileToLoad = path.join(filePath.dir, pathToLoad);
   const moduleAst = parse(readFileSync(`${fileToLoad}.ait`, 'utf8').toString());
 
-  evaluate(moduleAst, context);
+  evaluate(moduleAst, runtime);
 }
 
-function evaluateDefine({body: {keyword, body}}, context) {
-  const {lexicon} = context;
-  lexicon[keyword] = AitWord(body, context, evaluate);
+function evaluateDefine({body: {keyword, body}}, runtime) {
+  const {lexicon} = runtime;
+  lexicon[keyword] = AitWord(body, runtime, evaluate);
 }
 
-function evaluateWord({body: word}, context) {
-  const {stack, lexicon} = context;
+function evaluateWord({body: word}, runtime) {
+  const {stack, lexicon} = runtime;
 
   if(!isNaN(Number(word))) {
     stack.push(Number(word));
@@ -52,12 +52,12 @@ function evaluateWord({body: word}, context) {
   if(!fn) {
     throw new Error(`${word} was not found in the lexicon!`);
   }
-  fn.evaluate(context);
+  fn.evaluate(runtime);
 }
 
-function evaluateQuote({body}, context) {
-  const {stack} = context;
-  stack.push(AitWord(body, context, evaluate));
+function evaluateQuote({body}, runtime) {
+  const {stack} = runtime;
+  stack.push(AitWord(body, runtime, evaluate));
 }
 
 function evaluateTuple({body: tuple}, {lexicon, stack}) {
