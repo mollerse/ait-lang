@@ -1,11 +1,10 @@
 {
   "name": "ait-lang",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Compiler for the Ait language",
-  "main": "src/index.js",
+  "main": "runtimes.js",
   "scripts": {
-    "test": "echo 1",
-    "local-example": "budo ./examples/web/index.js -l -o --title \"Ait REPL\" -- -t brfs -t [ babelify --presets [ es2015 ] ]"
+    "test": "echo 1"
   },
   "repository": {
     "type": "git",
@@ -25,13 +24,6 @@
   "dependencies": {
     "lodash.clonedeep": "^4.3.2",
     "parsimmon": "^0.7.1"
-  },
-  "devDependencies": {
-    "babel-preset-es2015": "^6.9.0",
-    "babelify": "^7.3.0",
-    "brfs": "^1.4.3",
-    "browserify": "^13.0.1",
-    "budo": "^8.2.2"
   },
   "optionalDependencies": {
     "canvas": "^1.3.16"
