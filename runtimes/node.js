@@ -1,1 +1,1 @@
-module.exports = require('../lib/runtime/runtimes/node');
+module.exports = require('../dist/runtime/node').default;

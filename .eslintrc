@@ -1,0 +1,35 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "extends": "defaults",
+  "parser": "babel-eslint",
+  "rules": {
+    "strict": 0,
+    "import/no-duplicates": 2,
+    "no-duplicate-imports": 0,
+    "no-use-before-define": 0,
+    "func-names": 0,
+    "prefer-arrow-callback": 0,
+    "no-case-declarations": 0,
+    "comma-dangle": 0,
+    "no-console": 0,
+    "consistent-return": 0,
+    "no-param-reassign": 0,
+    "space-before-function-paren": 0,
+    import/no-extraneous-dependencies: [2, { devDependencies: true }]
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "plugins": [
+    "import"
+  ],
+  "globals": {
+  }
+}

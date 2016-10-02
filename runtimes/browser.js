@@ -1,1 +1,1 @@
-module.exports = require('../lib/runtime/runtimes/browser');
+module.exports = require('../dist/runtime/browser').default;
