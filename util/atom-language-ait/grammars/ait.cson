@@ -31,7 +31,7 @@
     'name': 'definition.word.ait'
   }
   {
-    'match': '[;\\[\\]()]'
+    'match': '[;\\[\\](){}]'
     'name': 'keyword.ait'
   }
   {
@@ -45,7 +45,7 @@
     'name': 'entity.word.ait'
   }
   {
-    'match': '(".*")'
+    'match': '["|\']((?:\\.|.)*?)["|\']'
     'name': 'constant.ait'
   }
 ]

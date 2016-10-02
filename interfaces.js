@@ -1,1 +1,1 @@
-module.exports = require('./lib/runtime/interfaces');
+module.exports = require('./dist/runtime/jsword').default;
