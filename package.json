@@ -1,6 +1,6 @@
 {
   "name": "ait-lang",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Compiler and runtime for the Ait language",
   "main": "runtimes/node.js",
   "browser": "runtimes/browser.js",
@@ -21,6 +21,12 @@
     "language",
     "web",
     "canvas"
+  ],
+  "files": [
+    "dist",
+    "runtimes",
+    "util",
+    "interfaces.js"
   ],
   "author": "Stian Møllersen",
   "license": "MIT",
