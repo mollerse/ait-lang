@@ -19,7 +19,9 @@
     "consistent-return": 0,
     "no-param-reassign": 0,
     "space-before-function-paren": 0,
-    import/no-extraneous-dependencies: [2, { devDependencies: true }]
+    "import/no-extraneous-dependencies": [2, { devDependencies: true }],
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1
   },
   "parserOptions": {
     "sourceType": "module",
@@ -28,7 +30,8 @@
     }
   },
   "plugins": [
-    "import"
+    "import",
+    "flowtype"
   ],
   "globals": {
   }

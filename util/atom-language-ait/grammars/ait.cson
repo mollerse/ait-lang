@@ -46,6 +46,6 @@
   }
   {
     'match': '["|\']((?:\\.|.)*?)["|\']'
-    'name': 'constant.ait'
+    'name': 'string.ait'
   }
 ]
