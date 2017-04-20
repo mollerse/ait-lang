@@ -1,6 +1,6 @@
 {
   "name": "ait-lang",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Compiler and runtime for the Ait language",
   "main": "runtimes/node.js",
   "browser": "runtimes/browser.js",
@@ -36,7 +36,6 @@
   },
   "homepage": "https://github.com/mollerse/ait-lang#readme",
   "dependencies": {
-    "is-relative": "^0.2.1",
     "parsimmon": "1.2.0"
   },
   "optionalDependencies": {
