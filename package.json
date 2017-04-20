@@ -1,6 +1,6 @@
 {
   "name": "ait-lang",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Compiler and runtime for the Ait language",
   "main": "runtimes/node.js",
   "browser": "runtimes/browser.js",
