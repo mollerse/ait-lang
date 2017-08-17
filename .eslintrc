@@ -24,10 +24,7 @@
     "flowtype/use-flow-type": 1
   },
   "parserOptions": {
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    }
+    "sourceType": "module"
   },
   "plugins": [
     "import",
