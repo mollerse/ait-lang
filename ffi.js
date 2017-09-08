@@ -1,0 +1,9 @@
+module.exports.aitFFI__F = require('./dist/runtime/lexicon').jsWord;
+module.exports.aitFFILookupVariable = require('./dist/runtime/lexicon').lookupVariable;
+module.exports.aitFFIStoreRootVariable = require('./dist/runtime/lexicon').storeRootVariable;
+module.exports.aitFFIStoreVariable = require('./dist/runtime/lexicon').storeVariable;
+module.exports.aitFFIWrapValue = require('./dist/parser/ast-walkers').wrapValueFFI;
+module.exports.aitFFIWrapQuotation = require('./dist/parser/ast-walkers').wrapQuotationFFI;
+module.exports.aitFFIWrapAggregate = require('./dist/parser/ast-walkers').wrapQuotationFFI;
+module.exports.aitFFIUnwrapValue = require('./dist/parser/ast-walkers').unwrapValueFFI;
+module.exports.aitFFIPrint = require('./dist/parser/ast-walkers').prettyPrint;
