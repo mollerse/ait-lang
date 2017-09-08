@@ -1,6 +1,6 @@
 {
   "name": "ait-lang",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Compiler and runtime for the Ait language",
   "main": "runtimes/node.js",
   "bin": "bin/ait-lang.js",
@@ -28,7 +28,8 @@
     "dist",
     "runtimes",
     "util",
-    "interfaces.js"
+    "ffi.js",
+    "bin"
   ],
   "author": "Stian Møllersen",
   "license": "MIT",
